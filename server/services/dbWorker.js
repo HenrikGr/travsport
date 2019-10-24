@@ -54,7 +54,7 @@ parentPort.on("message", incoming => {
       .then(() => {
         console.info("Mongoose connected successfully", config.mongoUri)
 
-        // When connected, start the subscriber worker
+        // When connected - tell parent to start a new subscription
         parentPort.postMessage({ status: "subscribe" });
       })
       .catch(error => {
