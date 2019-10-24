@@ -18,6 +18,11 @@ parentPort.on("message", message => {
   }
 })
 
+/**
+ * delay function
+ * @param interval
+ * @returns {Promise<void>}
+ */
 async function delay(interval = 4000) {
   await new Promise(resolve => setTimeout(resolve, interval));
 }
@@ -32,15 +37,13 @@ async function subscribe(interval = 4000) {
   console.log('start subscribing')
   let response = await getEventData()
 
-  // If no content - restart subscribing
+  // If no content - tell parent to start a new subscription
   if (response.status !== 200) {
     parentPort.postMessage({status: 'subscribe'})
   } else {
 
-    // Data has been retrieves - call the parent to initiate the save worker thread
+    // Data has been retrieves - tell parent that
     let { data } = await response
-
-    // Ensure database worker thread gets notified to save the data
     parentPort.postMessage({status: 'save', data: data})
   }
 }
