@@ -24,12 +24,15 @@ async function runService() {
   subscribeWorker.on("message", incoming => {
     const { status, data } = incoming
 
-    // Subscription worker has timed out, etc, subscribe again
+    // Tell subscription worker to start a subscription
+    // - After connection to the database is established
+    // - After a subscription call has timed out
+    // - After data has been saved
     if( status === 'subscribe') {
       subscribeWorker.postMessage('subscribe')
     }
 
-    // Subscription worker has found result data to be saved by the database worker
+    // Call database worker to save data
     if( status === 'save') {
       dbWorker.postMessage({status: 'save', data: data})
     }
