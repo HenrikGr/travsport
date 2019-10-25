@@ -47,7 +47,7 @@ const Model = mongoose.model("Result", schema);
 parentPort.on("message", incoming => {
   const { status, data } = incoming;
 
-  // Connect to mongo db with mongoose
+  // Parent issued a connect to database message
   if (status === "connect") {
     mongoose
       .connect(config.mongoUri, config.mongoOptions)
@@ -78,6 +78,6 @@ async function saveData(data) {
   const document = new Model(data)
   await document.save()
 
-  // Ensure to continue subscribe of more data
+  // When data is saved - tell parent to start a new subscription
   parentPort.postMessage({ status: "subscribe" })
 }
