@@ -6,5 +6,8 @@
 5. Run `npm start` to start the app
 
 
-Note: My first worker solution, and it was quite interesting and there are 
-props and cons with this kind of architecture.
+Note: Node.js Worker Threads allow concurrent execution of JavaScript code. If you are familiar with the Unix thread 
+model, you know that for every process group there is a parent process and several child processes. A similar model is 
+used for Worker Threads in this solutions.
+
+It was great fun to write my first solution based on worker threads. :-)
